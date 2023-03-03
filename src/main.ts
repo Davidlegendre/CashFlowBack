@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import config from './config/config';
-import { apikeyMiddleware } from './Domain/Arquitecture/middlewares/apikey.middleware';
+import { apikeyMiddleware } from './Domain/middlewares/apikey.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
