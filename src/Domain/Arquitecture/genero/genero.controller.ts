@@ -1,8 +1,10 @@
-import { Controller, Get, Inject, Param } from '@nestjs/common';
+import { Controller, Get, Inject, Param, UseGuards } from '@nestjs/common';
 import { Genero } from 'src/Domain/schemas/Genero-model';
 import { GeneroService } from './genero.service';
+import { APIKeyGuard } from '../../GlobalGuards/Guard.global';
 
 @Controller('genero')
+@UseGuards(APIKeyGuard)
 export class GeneroController {
 
     constructor(private generoservice: GeneroService){}

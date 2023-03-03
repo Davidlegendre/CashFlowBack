@@ -8,7 +8,7 @@ export class GeneroService {
     constructor(@InjectModel(Genero.name) private generomodel: Model<Genero_Document>){}
 
     async ObtenerTodosLosGeneros() : Promise<Genero[]>{
-        return await this.generomodel.find().exec();
+        return await this.generomodel.find();
     }
     async ObtenerUnGenero(_id: string) : Promise<Genero>{
         return await this.generomodel.findById({"_id": _id.valueOf()})
