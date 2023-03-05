@@ -10,7 +10,7 @@ export class BancoService {
 
     async ObtenerTodolosBancos(): Promise<Banco[]>{
         const result = await this.bancomodel.find();
-        if(!result) throw new HttpException('No hay Bancos',HttpStatus.NOT_FOUND)
+        if(result.length == 0) throw new HttpException('No hay Bancos',HttpStatus.NOT_FOUND)
         return result;
     }
 

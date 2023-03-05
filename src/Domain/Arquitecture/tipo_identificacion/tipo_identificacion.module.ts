@@ -13,6 +13,7 @@ import { Tipo_Identificacion, Tipo_IdentificacionSchema } from '../../schemas/Ti
     }])
   ],
   providers: [TipoIdentificacionService],
-  controllers: [TipoIdentificacionController]
+  controllers: [TipoIdentificacionController],
+  exports: [TipoIdentificacionService]
 })
 export class TipoIdentificacionModule {}

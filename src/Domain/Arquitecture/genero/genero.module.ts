@@ -12,6 +12,7 @@ import { GeneroSchema } from '../../schemas/Genero-model';
     collection: 'Genero'
   }])],
   providers: [GeneroService],
-  controllers: [GeneroController]
+  controllers: [GeneroController],
+  exports: [GeneroService]
 })
 export class GeneroModule {}

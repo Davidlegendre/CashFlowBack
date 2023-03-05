@@ -14,6 +14,11 @@ import SwaggerCustom from 'src/Domain/Views/index';
 import { TokenEmailModule } from './Domain/Arquitecture/token_email/token_email.module';
 import { EmpresaModule } from './Domain/Arquitecture/empresa/empresa.module';
 import { TokenEmailService } from './Domain/Arquitecture/token_email/token_email.service';
+import { PersonaModule } from './Domain/Arquitecture/persona/persona.module';
+import { GeneroService } from './Domain/Arquitecture/genero/genero.service';
+import { TipoIdentificacionService } from './Domain/Arquitecture/tipo_identificacion/tipo_identificacion.service';
+import { EmpresaService } from './Domain/Arquitecture/empresa/empresa.service';
+import { PersonaService } from './Domain/Arquitecture/persona/persona.service';
 require('dotenv').config()
 
 @Module({
@@ -28,6 +33,7 @@ require('dotenv').config()
    TipoIdentificacionModule,   
    EmpresaModule,
    TokenEmailModule,
+   PersonaModule,
    MongooseModule.forRoot(Config().database.host)],
   controllers: [AppController],
   providers: [AppService, SwaggerCustom],
