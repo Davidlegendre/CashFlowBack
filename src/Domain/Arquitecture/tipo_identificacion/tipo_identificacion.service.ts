@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tipo_Identificacion } from '../../schemas/Tipo-identificacion-model';
 import { Model } from 'mongoose';
@@ -11,12 +11,16 @@ export class TipoIdentificacionService {
 
     async ObtenerTodos(): Promise<Tipo_Identificacion[]>
     {
-        return await this.tipoIdentificacionModel.find();
+        const result = await this.tipoIdentificacionModel.find();
+        if(!result) throw new HttpException('Tipos de identificacion no encontrados',HttpStatus.NOT_FOUND)
+        return result
     }
 
     async ObtenerUno(id: string): Promise<Tipo_Identificacion>
     {
-        return await this.tipoIdentificacionModel.findById(id)
+        const result = await this.tipoIdentificacionModel.findById(id)
+        if(!result) throw new HttpException('Tipo de idenficacion no encontrado',HttpStatus.NOT_FOUND)
+        return result
     }
 
 }

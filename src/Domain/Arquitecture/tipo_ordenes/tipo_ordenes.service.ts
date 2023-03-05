@@ -1,4 +1,4 @@
-import { Injectable, Scope } from '@nestjs/common';
+import { Injectable, Scope, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Tipo_Ordenes } from '../../schemas/Tipo-ordenes-model';
@@ -13,10 +13,14 @@ export class TipoOrdenesService {
 
     async ObtenerTodo(): Promise<Tipo_Ordenes[]>
     {
-        return await this.tipo_ordenes_model.find();
+        const result = await this.tipo_ordenes_model.find();
+        if(!result) throw new HttpException('Tipo de Ordenes no encontrados',HttpStatus.NOT_FOUND)
+        return result
     }
 
     async ObtenerUno(id: string): Promise<Tipo_Ordenes>{
-        return await this.tipo_ordenes_model.findById(id);
+        const result = await this.tipo_ordenes_model.findById(id);
+        if(!result) throw new HttpException('Tipo de Orden no encontrado',HttpStatus.NOT_FOUND)
+        return result
     }
 }

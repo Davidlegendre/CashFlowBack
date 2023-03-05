@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Token_Email } from '../../schemas/Tokens-emails';
@@ -22,11 +22,12 @@ export class TokenEmailService {
        const token_email = await this.token_emailModel.findOne({email: toke_emailDTO.email})
         if(token_email && token_email._id.toString() === toke_emailDTO.token_email && getDateNow() <= token_email.FechaExpiracion)
         {              
-            await this.token_emailModel.findByIdAndDelete(token_email._id)                      
+            await this.token_emailModel.findByIdAndDelete(token_email._id)  
+            this.EliminarVencidos();                    
             return true;
         }
-        this.EliminarVencidos();
-        return false;
+        
+        throw new HttpException('Token no encontrado',HttpStatus.NOT_FOUND)
     }
 
     async CrearTokenEmail(email: string):Promise<boolean>
@@ -39,7 +40,7 @@ export class TokenEmailService {
     }
 
     async EliminarVencidos(){
-       const result =  await this.token_emailModel.deleteMany({FechaExpiracion: {$lte: getDateNow()} })
-       console.log(result)
+        const result = await this.token_emailModel.find({FechaExpiracion: {$lte: getDateNow()}})
+        if(result)  await this.token_emailModel.deleteMany({FechaExpiracion: {$lte: getDateNow()} })             
     }
 }

@@ -1,4 +1,4 @@
-import { Injectable, Scope } from '@nestjs/common';
+import { Injectable, Scope, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Banco, Banco_Document } from 'src/Domain/schemas/Banco-mode';
@@ -9,12 +9,16 @@ export class BancoService {
     constructor(@InjectModel(Banco.name) private readonly bancomodel: Model<Banco_Document>){}
 
     async ObtenerTodolosBancos(): Promise<Banco[]>{
-        return await this.bancomodel.find();
+        const result = await this.bancomodel.find();
+        if(!result) throw new HttpException('No hay Bancos',HttpStatus.NOT_FOUND)
+        return result;
     }
 
     async ObtenerUnSoloBanco(_id: string): Promise<Banco>
     {
-        return await this.bancomodel.findById(_id);
+        const result = await this.bancomodel.findById(_id);
+        if(!result) throw new HttpException('Banco no Encontrado',HttpStatus.NOT_FOUND)
+        return result
 
     }
 

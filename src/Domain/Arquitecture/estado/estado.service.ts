@@ -1,4 +1,4 @@
-import { Injectable, Scope } from '@nestjs/common';
+import { Injectable, Scope, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Estado } from 'src/Domain/schemas/Estado_Model'; 
@@ -12,17 +12,23 @@ export class EstadoService {
 
     async ObtenerTodos(): Promise<Estado[]>
     {
-        return await this.estadoModel.find();
+        const result = await this.estadoModel.find();
+        if(!result) throw new HttpException('Estados no encontrados',HttpStatus.NOT_FOUND)
+        return result
     }
 
     async ObtenerUnEstado(id: string): Promise<Estado>
     {
-        return await this.estadoModel.findById(id)
+        const result = await this.estadoModel.findById(id)
+        if(!result) throw new HttpException('Estado no encontrado',HttpStatus.NOT_FOUND)
+        return result
     }
 
     async ObtenerUnEstadoPorNumero(num: number): Promise<Estado>
     {
-        return await this.estadoModel.findOne({Num: num})
+        const result = await this.estadoModel.findOne({Num: num})
+        if(!result) throw new HttpException('Estado no encontrado',HttpStatus.NOT_FOUND)
+        return result
     }
 
 }

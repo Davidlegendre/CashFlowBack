@@ -1,4 +1,4 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, HttpException, HttpStatus } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Config } from 'src/config/config';
 
@@ -9,17 +9,14 @@ export class APIKeyGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
 
     const req = context.switchToHttp().getRequest();
-    try {
+   
       const {apikey} = req.headers;
+      if(!apikey) throw new HttpException('No esta autorizado a usar esta ruta',HttpStatus.UNAUTHORIZED)
       const key = apikey.split(' ')
-
-      if(key[0] === "Key"&&key[1] === Config().apikey)
+      if(key[0] !== "Key" || key[1] !== Config().apikey)
       {
-        return true;
+        throw new HttpException('No esta autorizado a usar esta ruta',HttpStatus.UNAUTHORIZED)
       }
-      return false;
-    } catch (error) {
-      return false;
-    }   
+      return true;
   }
 }
