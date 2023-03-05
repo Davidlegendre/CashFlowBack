@@ -7,11 +7,17 @@ import { Empresa, Empresa_Document } from '../../schemas/Empresa-model';
 export class EmpresaService {
   constructor(
     @InjectModel(Empresa.name)
-    private readonly empresaModel: Model<Empresa_Document>,
+    private readonly empresaModel: Model<Empresa_Document>
   ) {}
 
   async ObtenerTodasLasEmpresas(): Promise<Empresa[]> {
     return await this.empresaModel.find();
+  }
+
+  async ObtenerEmpresaPorEmail(email: string): Promise<Empresa>
+  {
+    return await this.empresaModel.findOne({email: email})
+
   }
 
   async ObtenerUnaEmpresa(_id: string): Promise<Empresa> {
@@ -27,14 +33,43 @@ export class EmpresaService {
     }
   }
 
-  async CrearLogo(logo: string, _id: string): Promise<boolean> {
+  async ActualizarEmpresa(_id: string,empresa: Empresa): Promise<Empresa>{
     try {
-      const result = await this.empresaModel.findByIdAndUpdate(_id, {
-        logo: logo,
-      });
-      return !result;
+      await this.empresaModel.findByIdAndUpdate(_id, {
+        nombreempresa: empresa.nombreempresa,
+        email: empresa.email
+      })
+      return empresa
     } catch (error) {
-      return false;
+      return null;
     }
   }
+
+  async EliminarEmpresa(_id: string): Promise<Empresa>{
+    try {
+      
+      const result = this.empresaModel.findByIdAndUpdate(_id,{IsActive: false})
+      return result;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async RestaurarEmpresa(id: string): Promise<Empresa>{
+    try {
+      const result = await this.empresaModel.findByIdAndUpdate(id,{IsActive: true})
+    return result;
+    } catch (error) {
+      return null
+    }
+  }
+  
+  async ActualizarLogo(logo: string, _id: string): Promise<Empresa>{
+    try {
+      const result = await this.empresaModel.findByIdAndUpdate(_id, {logo: logo});
+      return result;
+    } catch (error) {
+      return null;
+    }
+  } 
 }

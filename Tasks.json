@@ -1,0 +1,31 @@
+{
+    "tareas": [
+        "acualizar logo en empresa",
+        "subida de imagenes a cloudinary",
+        "eliminar una empresa despues de verificar por correo",
+        "restaurar una empresa despues de verificar por correo",
+        "reemplazar token_email en email por idUsuario"
+    ],
+    "Arquitecturas":[
+        "cuentaxusuario",
+        "Empresa",
+        "Ordenes",
+        "Persona",
+        "Personaxcliente",
+        "Usuario"
+    ],
+    "Helpers":[
+        "Subir Imagenes",
+        "Mandar Correo",
+        "Encriptar Password",
+        "Desencriptar password",
+        "Crear Token",
+        "Verificar Token"
+    ],
+    "Guards": [
+        "Autenticacion",
+        "Autorizacion por Roles",
+        "Login",
+        "Cerrar Sesion"
+    ]
+}

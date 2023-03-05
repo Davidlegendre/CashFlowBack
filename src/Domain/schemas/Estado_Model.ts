@@ -11,7 +11,7 @@ export class Estado {
   descrip: string;
 
   @Prop({required: true})
-  Num: Number;  
+  Num: number;  
 }
 
 export const EstadoSchema = SchemaFactory.createForClass(Estado);

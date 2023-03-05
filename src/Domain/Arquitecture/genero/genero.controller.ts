@@ -1,7 +1,7 @@
-import { Controller, Get, Inject, Param, UseGuards } from '@nestjs/common';
-import { Genero } from 'src/Domain/schemas/Genero-model';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { GeneroService } from './genero.service';
 import { APIKeyGuard } from '../../GlobalGuards/Guard.global';
+import { MensajeDTO } from 'src/Domain/DTOGlobal/MensajeModel'; 
 
 @Controller('genero')
 @UseGuards(APIKeyGuard)
@@ -10,14 +10,16 @@ export class GeneroController {
     constructor(private generoservice: GeneroService){}
 
     @Get('/all')
-    async GetAllGeneros(): Promise<Genero[]>
-    {
-        return await this.generoservice.ObtenerTodosLosGeneros();
+    async GetAllGeneros(): Promise<MensajeDTO>
+    {        
+        const result = await this.generoservice.ObtenerTodosLosGeneros()
+        return {mensaje: "Lista de Generos", Data: result}
     }
 
     @Get('/one/:id')
-    async getOneGenero(@Param('id') id: string): Promise<Genero>
+    async getOneGenero(@Param('id') id: string): Promise<MensajeDTO>
     {
-        return await this.generoservice.ObtenerUnGenero(id)
+        const result = await this.generoservice.ObtenerUnGenero(id)
+        return {mensaje: "Genero", Data: result}
     }
 }

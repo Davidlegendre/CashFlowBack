@@ -15,6 +15,9 @@ export class Empresa {
 
   @Prop({required: false, default: ""})
   logo: string;
+
+  @Prop({required: true, default: true})
+  IsActive: boolean;
 }
 
 export const EmpresaSchema = SchemaFactory.createForClass(Empresa);

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types} from 'mongoose';
+import { getDateNow } from '../Helpers/Time.helper';
 
 export type OrdenesDocument = HydratedDocument<Ordenes>;
 
@@ -19,8 +20,8 @@ export class Ordenes {
     @Prop({required: true})
     monto_Total: number;
 
-    @Prop({required: true, default: Date.now()})
-    FechaSolicitud: Date
+    @Prop({required: true, default: getDateNow()})
+    FechaSolicitud: Date;
 
     @Prop({required: true, type: Types.ObjectId, ref: 'Persona'})
     PersonaCliente_Id: string;
