@@ -9,6 +9,7 @@ export const Config = () =>{
     emailOwner: {
       email: process.env.Email_Owner,
       password: process.env.Password_Email_Owner
-    }
+    },
+    jwt_key: process.env.JWT_KEY
   }
 }

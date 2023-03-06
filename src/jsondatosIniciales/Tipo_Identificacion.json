@@ -1,0 +1,11 @@
+[{
+  "_id": {
+    "$oid": "640215ff3987860d24dd8719"
+  },
+  "descrip": "Cedula de Identidad"
+},{
+  "_id": {
+    "$oid": "640216e33987860d24dd871b"
+  },
+  "descrip": "DNI"
+}]

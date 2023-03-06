@@ -2,9 +2,11 @@ import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { MensajeDTO } from 'src/Domain/DTOGlobal/MensajeModel';
 import { APIKeyGuard } from 'src/Domain/GlobalGuards/Guard.global';
 import { EstadoService } from './estado.service';
+import { JWTAuthGuard } from '../../GlobalGuards/JWTAuthGuard.guard';
 
-@Controller('estado')
+@UseGuards(JWTAuthGuard)
 @UseGuards(APIKeyGuard)
+@Controller('estado')
 export class EstadoController {
 
     constructor(private readonly estadoService: EstadoService){}

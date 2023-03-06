@@ -11,6 +11,7 @@ import { Tipo_Usuario, Tipo_UsuarioSchema } from '../../schemas/Tipo-usuario-mod
     collection: 'Tipo_Usuario'
   }])],
   controllers: [TipoUsuarioController],
-  providers: [TipoUsuarioService]
+  providers: [TipoUsuarioService],
+  exports: [TipoUsuarioService]
 })
 export class TipoUsuarioModule {}

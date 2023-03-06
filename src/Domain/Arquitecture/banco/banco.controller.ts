@@ -2,13 +2,16 @@ import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { Banco } from '../../schemas/Banco-mode';
 import { BancoService } from './banco.service';
 import { APIKeyGuard } from '../../GlobalGuards/Guard.global';
+import { JWTAuthGuard } from '../../GlobalGuards/JWTAuthGuard.guard';
 
-@Controller('banco')
 @UseGuards(APIKeyGuard)
+@UseGuards(JWTAuthGuard)
+@Controller('banco')
 export class BancoController {
 
     constructor(private readonly bancoService: BancoService){}
 
+   
     @Get('/all')    
     async ObtenerTodos(): Promise<Banco[]>{
         return await this.bancoService.ObtenerTodolosBancos();

@@ -20,16 +20,19 @@ import { EmpresaDTOLogoURL } from './DTO/EmpresaLogoDTO.URL';
 import { TokenEmailService } from '../token_email/token_email.service';
 import { Request } from 'express';
 import { EmailDTO } from '../token_email/dto/email.dto';
+import { JWTAuthGuard } from 'src/Domain/GlobalGuards/JWTAuthGuard.guard';
 
-@Controller('empresa')
+
 @UseGuards(APIKeyGuard)
+@UseGuards(JWTAuthGuard)
+@Controller('empresa')
 export class EmpresaController {
   constructor(
     private readonly empresaService: EmpresaService,
     private readonly token_emailService: TokenEmailService,
   ) {}
 
-  @Get('/all')
+  @Get('/WZwI8RedqZgQqeHBlMH8xfvK4D6ddMjHXw7ylV9BjUlnx0tp0SvNc4FV95Ot38kk')
   async ObtenerTodas(): Promise<MensajeDTO> {
     const result = await this.empresaService.ObtenerTodasLasEmpresas();
     return { mensaje: 'Lista de Empresas', Data: result };

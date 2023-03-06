@@ -1,0 +1,31 @@
+[{
+  "_id": {
+    "$oid": "640215893987860d24dd8710"
+  },
+  "Descrip": "Solicitado",
+  "Num": 1
+},{
+  "_id": {
+    "$oid": "640215ab3987860d24dd8711"
+  },
+  "Descrip": "En Espera",
+  "Num": 2
+},{
+  "_id": {
+    "$oid": "640215b73987860d24dd8712"
+  },
+  "Descrip": "Atendido",
+  "Num": 3
+},{
+  "_id": {
+    "$oid": "640215de3987860d24dd8713"
+  },
+  "Descrip": "Aprobado",
+  "Num": 4
+},{
+  "_id": {
+    "$oid": "640215ec3987860d24dd8714"
+  },
+  "Descrip": "No Aprobado",
+  "Num": 5
+}]

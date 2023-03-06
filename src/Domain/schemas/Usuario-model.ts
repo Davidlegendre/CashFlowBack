@@ -7,7 +7,7 @@ export type UsuarioDocument = HydratedDocument<Usuario>;
   timestamps: true,
 })
 export class Usuario {
-    @Prop({required: false})
+    @Prop({required: false, default: false})
     esConfimado: boolean;
 
     @Prop({required: true})
@@ -16,7 +16,7 @@ export class Usuario {
     @Prop({required: true, type: Types.ObjectId, ref: 'Persona'})
     Persona_Id: string;
 
-    @Prop({required: true, type: Types.ObjectId, ref: 'Tipo_Usuario'})
+    @Prop({required: true, type: Types.ObjectId, ref: 'Tipo_Usuario' })
     Tipo_Usuario_Id: string;
 }
 

@@ -1,0 +1,22 @@
+[{
+  "_id": {
+    "$oid": "64020e0a3987860d24dd870a"
+  },
+  "BancoDescrip": "Banco de Venezuela",
+  "Icono": "https://res.cloudinary.com/dflatec/image/upload/v1677857574/Chasflowapp_media/img_bancos/BVLogo_g3829u.png",
+  "URL": "https://www.bancodevenezuela.com/"
+},{
+  "_id": {
+    "$oid": "6402151f3987860d24dd870c"
+  },
+  "BancoDescrip": "Banesco",
+  "Icono": "https://res.cloudinary.com/dflatec/image/upload/v1677857679/Chasflowapp_media/img_bancos/Banescologo_jwou1x.png",
+  "URL": "https://www.banesco.com/"
+},{
+  "_id": {
+    "$oid": "6402157d3987860d24dd870d"
+  },
+  "BancoDescrip": "BBVA Provincial",
+  "Icono": "https://res.cloudinary.com/dflatec/image/upload/v1677857741/Chasflowapp_media/img_bancos/BProvinciallogo_aqfh1c.png",
+  "URL": "https://www.provincial.com/"
+}]

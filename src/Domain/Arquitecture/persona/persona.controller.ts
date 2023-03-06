@@ -7,8 +7,12 @@ import { Req } from '@nestjs/common/decorators';
 import { Request } from 'express';
 import { TokenEmailService } from '../token_email/token_email.service';
 import EmailPersonaDTO from './dto/emailPersona.dto';
-@Controller('persona')
+import { JWTAuthGuard } from 'src/Domain/GlobalGuards/JWTAuthGuard.guard';
+
+
+@UseGuards(JWTAuthGuard)
 @UseGuards(APIKeyGuard)
+@Controller('persona')
 export class PersonaController {
 
     constructor(private readonly personaService: PersonaService, private readonly token_emailService: TokenEmailService){}

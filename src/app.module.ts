@@ -19,6 +19,9 @@ import { GeneroService } from './Domain/Arquitecture/genero/genero.service';
 import { TipoIdentificacionService } from './Domain/Arquitecture/tipo_identificacion/tipo_identificacion.service';
 import { EmpresaService } from './Domain/Arquitecture/empresa/empresa.service';
 import { PersonaService } from './Domain/Arquitecture/persona/persona.service';
+import { AuthModule } from './Domain/Arquitecture/auth/auth.module';
+import { JwtService } from '@nestjs/jwt/dist';
+import { JwtStrategy } from './config/jwt.strategy';
 require('dotenv').config()
 
 @Module({
@@ -34,9 +37,10 @@ require('dotenv').config()
    EmpresaModule,
    TokenEmailModule,
    PersonaModule,
+   AuthModule,
    MongooseModule.forRoot(Config().database.host)],
   controllers: [AppController],
-  providers: [AppService, SwaggerCustom],
+  providers: [AppService, SwaggerCustom, JwtStrategy],
 })
 export class AppModule{
 }

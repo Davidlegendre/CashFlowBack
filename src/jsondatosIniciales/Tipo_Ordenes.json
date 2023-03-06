@@ -1,0 +1,11 @@
+[{
+  "_id": {
+    "$oid": "640217193987860d24dd871e"
+  },
+  "descrip": "Pago Móvil"
+},{
+  "_id": {
+    "$oid": "640217523987860d24dd871f"
+  },
+  "descrip": "Transferencia Bancaria"
+}]

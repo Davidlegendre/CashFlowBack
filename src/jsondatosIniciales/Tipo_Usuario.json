@@ -1,0 +1,25 @@
+[{
+  "_id": {
+    "$oid": "640217583987860d24dd8722"
+  },
+  "Descrip": "Dueño",
+  "Code": "D"
+},{
+  "_id": {
+    "$oid": "6402178b3987860d24dd8723"
+  },
+  "Descrip": "Administrador",
+  "Code": "A"
+},{
+  "_id": {
+    "$oid": "640217983987860d24dd8724"
+  },
+  "Descrip": "Gestor",
+  "Code": "G"
+},{
+  "_id": {
+    "$oid": "640217a33987860d24dd8725"
+  },
+  "Descrip": "Cliente",
+  "Code": "C"
+}]
