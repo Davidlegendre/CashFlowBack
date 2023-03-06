@@ -5,7 +5,6 @@
     "Arquitecturas":[
         "cuentaxusuario",
         "Ordenes",
-        "Persona",
         "Personaxcliente",
         "Usuario"
     ],
