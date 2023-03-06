@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { EmailFactoryService } from './email-factory.service';
 
 @Module({
-  providers: [EmailFactoryService]
+  providers: [EmailFactoryService],
+  exports: [EmailFactoryService]
 })
-export class TokenEmailModule {}
+export class EmailFactoryModule {}

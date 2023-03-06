@@ -39,6 +39,8 @@ export class EmpresaService {
 
   async ActualizarEmpresa(_id: string,empresa: Empresa): Promise<Empresa>{
     
+      await this.ObtenerUnaEmpresa(_id)
+
       const result = await this.empresaModel.findByIdAndUpdate(_id, {
         nombreempresa: empresa.nombreempresa,
         email: empresa.email
@@ -50,6 +52,8 @@ export class EmpresaService {
 
   async EliminarEmpresa(_id: string): Promise<Empresa>{
    
+    await this.ObtenerUnaEmpresa(_id)
+
       const result = this.empresaModel.findByIdAndUpdate(_id,{IsActive: false})
       if(!result) throw new HttpException('Empresa no eliminada',HttpStatus.NOT_MODIFIED)
       return result;
@@ -64,6 +68,8 @@ export class EmpresaService {
   
   async ActualizarLogo(logo: string, _id: string): Promise<Empresa>{
     
+     await this.ObtenerUnaEmpresa(_id)
+
       const result = await this.empresaModel.findByIdAndUpdate(_id, {logo: logo});
       if(!result) throw new HttpException("EL logo no ha sido actualizado", HttpStatus.NOT_MODIFIED)
       return result;

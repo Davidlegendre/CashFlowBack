@@ -11,21 +11,24 @@ export class Persona {
   nombre: string;
   @Prop({ required: true })
   apellido: string;
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   email: string;
   @Prop({ required: false, default: null})
   telefono: Number;
-  @Prop({ required: true})
-  Identificacion: Number;
+  @Prop({ required: true, unique: true})
+  identificacion: string;
+
+  @Prop({required: false, default: true})
+  IsActive: boolean;
 
   @Prop({required: true, type: Types.ObjectId, ref: 'Genero'})
-  Genero_id: string;
+  genero_id: string;
 
   @Prop({required: true, Type: Types.ObjectId, ref: 'Tipo_Identificacion'})
-  Tipo_Identificacion_id: string;
+  tipo_identificacion_id: string;
 
   @Prop({required: true, type: Types.ObjectId, ref: 'Empresa'})
-  Empresa_id: string;
+  empresa_id: string;
 }
 
 export const PersonaSchema = SchemaFactory.createForClass(Persona);

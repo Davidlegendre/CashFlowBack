@@ -15,15 +15,14 @@ export class RegistroPersonaDTO {
   telefono?: Number;
 
   @IsNotEmpty({message: "Idenficacion no debe estar vacio"})
-  @IsNumber({},{message: "identificacion debe ser un numero"})
-  Identificacion: Number;
+  identificacion: string;
 
   @IsNotEmpty({message: "Genero_id no debe estar vacio"})
-  Genero_id: string;
+  genero_id: string;
 
   @IsNotEmpty({message: "Tipo_Identificacion_id no debe estar vacio"})
-  Tipo_Identificacion_id: string;
+  tipo_identificacion_id: string;
 
   @IsNotEmpty({message: "Empresa_id no debe estar vacio"})
-  Empresa_id: string;
+  empresa_id: string;
 }

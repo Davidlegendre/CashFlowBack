@@ -4,13 +4,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Token_Email, Token_EmailSchema } from '../../schemas/Tokens-emails';
 import { EmailFactoryService } from '../email-factory/email-factory.service';
 import { TokenEmailController } from './token_email.controller';
+import { EmailFactoryModule } from '../email-factory/email-factory.module';
 
 @Module({
   imports: [MongooseModule.forFeature([{
     name: Token_Email.name,
     schema: Token_EmailSchema
-  }])],
-  providers: [TokenEmailService, EmailFactoryService],
+  }]), EmailFactoryModule],
+  providers: [TokenEmailService],
   controllers: [TokenEmailController],
   exports: [TokenEmailService]
 })

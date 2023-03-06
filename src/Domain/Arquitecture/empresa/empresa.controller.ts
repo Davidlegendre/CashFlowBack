@@ -70,7 +70,7 @@ export class EmpresaController {
     @Body() logoDTO: EmpresaDTOLogoURL,
     @Param('id') id: string,
   ): Promise<MensajeDTO> {
-    const emp = await this.empresaService.ObtenerUnaEmpresa(id);
+    await this.empresaService.ObtenerUnaEmpresa(id);
     const result = await this.empresaService.ActualizarLogo(logoDTO.logo, id);
     return { mensaje: 'Logo Actualizada', Data: result };
   }
@@ -82,19 +82,19 @@ export class EmpresaController {
   ): Promise<MensajeDTO> {
     const { token_email } = req.headers;
     const emp = await this.empresaService.ObtenerUnaEmpresa(id);
-    if (token_email) {
-      await this.token_emailService.VerificarYUsarTokenEmail({
-        email: emp.email,
-        token_email: token_email.toString(),
-      });
-      await this.empresaService.EliminarEmpresa(id);
-      return { mensaje: 'Empresa Eliminada', Data: { result: true } };
-     
+    if (!token_email) {
+      throw new HttpException(
+        'Necesitas un token_email o la empresa no existe',
+        HttpStatus.UNAUTHORIZED,
+      );     
     }
-    throw new HttpException(
-      'Necesitas un token_email o la empresa no existe',
-      HttpStatus.UNAUTHORIZED,
-    );
+    await this.token_emailService.VerificarYUsarTokenEmail({
+      email: emp.email,
+      token_email: token_email.toString(),
+    });
+    await this.empresaService.EliminarEmpresa(id);
+    return { mensaje: 'Empresa Eliminada', Data: { result: true } };
+    
   }
 
   @Post('/restaurar')
@@ -106,17 +106,18 @@ export class EmpresaController {
       const emp: any = await this.empresaService.ObtenerEmpresaPorEmail(
         emailDTO.email,
       );
-      if (token_email) {
-        await this.token_emailService.VerificarYUsarTokenEmail({
-          email: emp.email,
-          token_email: token_email.toString(),
-        });
-        await this.empresaService.RestaurarEmpresa(emp._id);
-        return { mensaje: 'Empresa Restaurada', Data: { result: true } };
+      if (!token_email) {
+        throw new HttpException(
+          'Necesitas un token_email o la empresa no existe',
+          HttpStatus.UNAUTHORIZED,
+        );
       }
-      throw new HttpException(
-        'Necesitas un token_email o la empresa no existe',
-        HttpStatus.UNAUTHORIZED,
-      );
+      await this.token_emailService.VerificarYUsarTokenEmail({
+        email: emp.email,
+        token_email: token_email.toString(),
+      });
+      await this.empresaService.RestaurarEmpresa(emp._id);
+      return { mensaje: 'Empresa Restaurada', Data: { result: true } };
+     
   }
 }
