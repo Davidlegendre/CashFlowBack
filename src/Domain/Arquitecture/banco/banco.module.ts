@@ -11,6 +11,7 @@ import { Banco, BancoSchema } from '../../schemas/Banco-mode';
     collection: 'Banco'
   }])],
   providers: [BancoService],
-  controllers: [BancoController]
+  controllers: [BancoController],
+  exports: [BancoService]
 })
 export class BancoModule {}

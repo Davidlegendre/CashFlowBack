@@ -22,6 +22,7 @@ import { PersonaService } from './Domain/Arquitecture/persona/persona.service';
 import { AuthModule } from './Domain/Arquitecture/auth/auth.module';
 import { JwtService } from '@nestjs/jwt/dist';
 import { JwtStrategy } from './config/jwt.strategy';
+import { CuentasxusuarioModule } from './Domain/Arquitecture/cuentasxusuario/cuentasxusuario.module';
 require('dotenv').config()
 
 @Module({
@@ -37,6 +38,7 @@ require('dotenv').config()
    EmpresaModule,
    TokenEmailModule,
    PersonaModule,
+   CuentasxusuarioModule,
    AuthModule,
    MongooseModule.forRoot(Config().database.host)],
   controllers: [AppController],

@@ -9,14 +9,19 @@ import { TokenEmailService } from '../token_email/token_email.service';
 import EmailPersonaDTO from './dto/emailPersona.dto';
 import { JWTAuthGuard } from 'src/Domain/GlobalGuards/JWTAuthGuard.guard';
 
-
-@UseGuards(JWTAuthGuard)
 @UseGuards(APIKeyGuard)
+@UseGuards(JWTAuthGuard)
 @Controller('persona')
 export class PersonaController {
 
     constructor(private readonly personaService: PersonaService, private readonly token_emailService: TokenEmailService){}
 
+    /*
+    "persona => obtener: Dueño => todas las personas que estan con su correo mas el (hacer paginacion)", 
+        "Administrador => todas las personas que fueron agregadas por el y su dueño (hacer paginacion)", 
+        "Gestor => todas las personas tipo cliente que agrego, mas su dueño (hacer paginacion)",
+        "Cliente => se vera el, su gestor"
+    */
     @Get('/all')
     async ObtenerTodo(): Promise<MensajeDTO>
     {

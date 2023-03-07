@@ -8,7 +8,7 @@ export type CuentasBancoXUsuarioDocument = HydratedDocument<CuentasBancoXUsuario
 })
 export class CuentasBancoXUsuario {
     @Prop({required: true})
-    numerocuenta: number;
+    numerocuenta: string;
 
     @Prop({required: true, type: Types.ObjectId, ref: 'Persona'})
     Persona_id: string;
