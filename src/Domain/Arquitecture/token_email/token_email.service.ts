@@ -33,7 +33,6 @@ export class TokenEmailService {
     {
         await this.token_emailModel.findOneAndDelete({email})
         const result = await this.token_emailModel.create({email})
-        await result.save()
         await this.emailFactoryService.SendEmail("Este es tu token: " + result._id, email)
         return true;  
     }

@@ -10,6 +10,7 @@ import { TipoUsuarioService } from '../tipo_usuario/tipo_usuario.service';
 import { Token_EmailDTO } from '../token_email/dto/token_email.dto';
 import LoginDTO from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt/dist';
+import PasswordUpdateDTO from './dto/passwordupdate.dto';
 
 @Injectable()
 export class AuthService {
@@ -77,22 +78,41 @@ export class AuthService {
         const tipousuario: any = usuarioObject.tipo_usuario_id? await this.tipousuarioService.ObtenerUno(usuarioObject.tipo_usuario_id) : await this.tipousuarioService.ObtenerUnoPorCode("D")  
 
         const passencript = await hash(usuarioObject.password, 10)
-
-        await this.tokenEmailService.CrearTokenEmail(persona.email)
-
         const result = await this.usuarioModel.create({
             password: passencript,
             Persona_Id: usuarioObject.persona_id,
             Tipo_Usuario_Id: tipousuario._id
         })
         if(!result) throw new HttpException('Usuario no registrado',HttpStatus.NOT_MODIFIED)
+
+        await this.tokenEmailService.CrearTokenEmail(persona.email)
+        
         return {
             result: true,
             email: persona.email
         }
         
     }
+    //para restaurar password si se olvido => enviar token del correo, nueva contraseña, el token del email y el email, luego usa el token con el email luego si todo va bien, actualiza el password
 
+    async RestaurarPassword(passwordupdateDto: PasswordUpdateDTO)
+    {
+        const persona: any = await this.personaService.ObtenerPorEmail(passwordupdateDto.email); //si existe
+        if(!persona.IsActive) throw new HttpException('Usuario esta inactivo',HttpStatus.NOT_FOUND)
+        const idpersona = persona._id.toString()
+        const usuario = await this.usuarioModel.findOne({Persona_Id: idpersona})
+        if(!usuario) throw new HttpException('La persona no tiene un usuario',HttpStatus.NOT_FOUND)
+
+        await this.tokenEmailService.VerificarYUsarTokenEmail({
+            email: passwordupdateDto.email,
+            token_email: passwordupdateDto.token_email
+        })
+        const passencript = await hash(passwordupdateDto.newpassword, 10)
+        const result = await this.usuarioModel.findByIdAndUpdate(usuario._id, {password: passencript})
+        if(!result) throw new HttpException('Usuario no actualizado',HttpStatus.NOT_MODIFIED)
+        return true
+       
+    }
 
 
     //login y register lo hace auth usando a Usuario

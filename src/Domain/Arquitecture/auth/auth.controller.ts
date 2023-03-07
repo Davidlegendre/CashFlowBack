@@ -6,19 +6,25 @@ import { AuthService } from './auth.service';
 import { EmailDTO } from '../token_email/dto/email.dto';
 import { Request } from 'express';
 import LoginDTO from './dto/login.dto';
-import { JWTAuthGuard } from '../../GlobalGuards/JWTAuthGuard.guard';
+import PasswordUpdateDTO from './dto/passwordupdate.dto';
 
-@Controller('auth')
 @UseGuards(APIKeyGuard)
+@Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService){}
     
-    @Get('/s3MzP4oe27+aM+7pKJ681IilooKmX1zQny6TKnO4wEzz6kFc2blAb3E3LOkNBV3y')
+    @Get('/oiunasoidufhisoaudnfaiosdfoisybdfoasybduy')
     async ObtenerTodo(): Promise<MensajeDTO>{
         return {
             mensaje: "Usuarios",
             Data: await this.authService.ObtenerTodos()
         }
+    }
+
+    @Post('/restaurar')
+    async RestaurarContrasena(@Body() passwordUpdateDTO: PasswordUpdateDTO): Promise<MensajeDTO>{
+        const result = await this.authService.RestaurarPassword(passwordUpdateDTO)
+        return {mensaje: "Contraseña restaurada", Data: {result}}
     }
 
     @Post('/registrar')
