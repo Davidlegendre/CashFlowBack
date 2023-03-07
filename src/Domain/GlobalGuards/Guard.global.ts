@@ -11,7 +11,7 @@ export class APIKeyGuard implements CanActivate {
     const req = context.switchToHttp().getRequest();
    
       const {apikey} = req.headers;
-      if(!apikey) throw new HttpException('No esta autorizado a usar esta ruta',HttpStatus.UNAUTHORIZED)
+      if(!apikey) throw new HttpException('No esta autorizado a usar la api',HttpStatus.UNAUTHORIZED)
       const key = apikey.split(' ')
       if(key[0] !== "Key" || key[1] !== Config().apikey)
       {

@@ -21,10 +21,12 @@ import { TokenEmailService } from '../token_email/token_email.service';
 import { Request } from 'express';
 import { EmailDTO } from '../token_email/dto/email.dto';
 import { JWTAuthGuard } from 'src/Domain/GlobalGuards/JWTAuthGuard.guard';
+import { RolesGuard } from '../../GlobalGuards/Role.guard';
+import { Roles } from 'src/Domain/GlobalGuards/role.decorator';
+import { rol } from '../tipo_usuario/enums/tipousuario.enum';
 
 
 @UseGuards(APIKeyGuard)
-@UseGuards(JWTAuthGuard)
 @Controller('empresa')
 export class EmpresaController {
   constructor(
@@ -32,7 +34,8 @@ export class EmpresaController {
     private readonly token_emailService: TokenEmailService,
   ) {}
 
-  @Get('/WZwI8RedqZgQqeHBlMH8xfvK4D6ddMjHXw7ylV9BjUlnx0tp0SvNc4FV95Ot38kk')
+
+  @Get('/all')
   async ObtenerTodas(): Promise<MensajeDTO> {
     const result = await this.empresaService.ObtenerTodasLasEmpresas();
     return { mensaje: 'Lista de Empresas', Data: result };
@@ -53,6 +56,8 @@ export class EmpresaController {
     return { mensaje: 'Empresa Creada Correctamente', Data: result };
   }
 
+  @Roles(rol.Dueño)
+  @UseGuards(JWTAuthGuard, RolesGuard)
   @Put('/update/:id')
   async ActualizarEmpresa(
     @Body() empresadto: EmpresaDTO,
@@ -68,6 +73,8 @@ export class EmpresaController {
     return { mensaje: 'Empresa Actualizada', Data: result };
   }
 
+  @Roles(rol.Dueño)
+  @UseGuards(JWTAuthGuard, RolesGuard)
   @Post('/logo/updatePorURL/:id')
   async ActualizarLogoPorURL(
     @Body() logoDTO: EmpresaDTOLogoURL,
@@ -78,6 +85,8 @@ export class EmpresaController {
     return { mensaje: 'Logo Actualizada', Data: result };
   }
 
+  @Roles(rol.Dueño)
+  @UseGuards(JWTAuthGuard, RolesGuard)
   @Post('/eliminar/:id')
   async EliminarEmpresa(
     @Req() req: Request,

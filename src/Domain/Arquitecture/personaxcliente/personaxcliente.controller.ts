@@ -4,9 +4,13 @@ import { JWTAuthGuard } from '../../GlobalGuards/JWTAuthGuard.guard';
 import { MensajeDTO } from 'src/Domain/DTOGlobal/MensajeModel';
 import { PersonaxclienteService } from './personaxcliente.service';
 import PersonaXClienteDTO from './dto/personaxcliente.dto';
+import { RolesGuard } from '../../GlobalGuards/Role.guard';
+import { Roles } from 'src/Domain/GlobalGuards/role.decorator';
+import { rol } from '../tipo_usuario/enums/tipousuario.enum';
 
 @UseGuards(APIKeyGuard)
-@UseGuards(JWTAuthGuard)
+@Roles(rol.Dueño, rol.Administrador, rol.Gestor)
+@UseGuards(JWTAuthGuard, RolesGuard)
 @Controller('personaxcliente')
 export class PersonaxclienteController {
 

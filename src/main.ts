@@ -2,7 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {Config} from './config/config';
-import { addMilisecondsToDate, getDateNow } from './Domain/Helpers/Time.helper';
+import { RolesGuard } from './Domain/GlobalGuards/Role.guard';
 
 
 async function bootstrap() {

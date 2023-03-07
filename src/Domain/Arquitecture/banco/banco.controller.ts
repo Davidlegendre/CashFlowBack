@@ -11,8 +11,7 @@ export class BancoController {
 
     constructor(private readonly bancoService: BancoService){}
 
-   
-    @Get('/all')    
+    @Get('/all')        
     async ObtenerTodos(): Promise<Banco[]>{
         return await this.bancoService.ObtenerTodolosBancos();
     }

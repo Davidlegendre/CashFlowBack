@@ -8,9 +8,11 @@ import { Request } from 'express';
 import { TokenEmailService } from '../token_email/token_email.service';
 import EmailPersonaDTO from './dto/emailPersona.dto';
 import { JWTAuthGuard } from 'src/Domain/GlobalGuards/JWTAuthGuard.guard';
+import { RolesGuard } from '../../GlobalGuards/Role.guard';
+import { Roles } from 'src/Domain/GlobalGuards/role.decorator';
+import { rol } from '../tipo_usuario/enums/tipousuario.enum';
 
 @UseGuards(APIKeyGuard)
-@UseGuards(JWTAuthGuard)
 @Controller('persona')
 export class PersonaController {
 
@@ -22,6 +24,7 @@ export class PersonaController {
         "Gestor => todas las personas tipo cliente que agrego, mas su dueño (hacer paginacion)",
         "Cliente => se vera el, su gestor"
     */
+    @UseGuards(JWTAuthGuard)
     @Get('/all')
     async ObtenerTodo(): Promise<MensajeDTO>
     {
@@ -29,6 +32,7 @@ export class PersonaController {
         return {mensaje: "Personas", Data: result};
     }
 
+    @UseGuards(JWTAuthGuard)
     @Get('/one/:id')
     async ObtenerUno(@Param('id') id: string): Promise<MensajeDTO>
     {
@@ -43,6 +47,7 @@ export class PersonaController {
         return {mensaje: "Persona Creada", Data: result}
     }
 
+    @UseGuards(JWTAuthGuard)
     @Put('/update/:id')
     async ActualizarPersona(@Body() personaDTO: RegistroPersonaDTO, @Param('id') id: string): Promise<MensajeDTO>
     {
@@ -50,6 +55,7 @@ export class PersonaController {
         return {mensaje: "Persona Actualizada", Data: result}
     }
 
+    @UseGuards(JWTAuthGuard)
     @Post('/eliminar/:id')
     async EliminarPersona(@Param('id') id: string, @Req() req: Request): Promise<MensajeDTO>
     {

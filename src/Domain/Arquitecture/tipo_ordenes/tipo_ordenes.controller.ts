@@ -4,8 +4,8 @@ import { TipoOrdenesService } from './tipo_ordenes.service';
 import { MensajeDTO } from 'src/Domain/DTOGlobal/MensajeModel';
 import { JWTAuthGuard } from 'src/Domain/GlobalGuards/JWTAuthGuard.guard';
 
-@UseGuards(JWTAuthGuard)
 @UseGuards(APIKeyGuard)
+@UseGuards(JWTAuthGuard)
 @Controller('tipo-ordenes')
 export class TipoOrdenesController {
     constructor(private readonly tipoOrdenesService: TipoOrdenesService){}
