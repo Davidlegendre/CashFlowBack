@@ -8,9 +8,6 @@ import { Request } from 'express';
 import { TokenEmailService } from '../token_email/token_email.service';
 import EmailPersonaDTO from './dto/emailPersona.dto';
 import { JWTAuthGuard } from 'src/Domain/GlobalGuards/JWTAuthGuard.guard';
-import { RolesGuard } from '../../GlobalGuards/Role.guard';
-import { Roles } from 'src/Domain/GlobalGuards/role.decorator';
-import { rol } from '../tipo_usuario/enums/tipousuario.enum';
 
 @UseGuards(APIKeyGuard)
 @Controller('persona')
@@ -18,19 +15,7 @@ export class PersonaController {
 
     constructor(private readonly personaService: PersonaService, private readonly token_emailService: TokenEmailService){}
 
-    /*
-    "persona => obtener: Dueño => todas las personas que estan con su correo mas el (hacer paginacion)", 
-        "Administrador => todas las personas que fueron agregadas por el y su dueño (hacer paginacion)", 
-        "Gestor => todas las personas tipo cliente que agrego, mas su dueño (hacer paginacion)",
-        "Cliente => se vera el, su gestor"
-    */
-    @UseGuards(JWTAuthGuard)
-    @Get('/all')
-    async ObtenerTodo(): Promise<MensajeDTO>
-    {
-        const result = await this.personaService.ObenerTodo()
-        return {mensaje: "Personas", Data: result};
-    }
+    
 
     @UseGuards(JWTAuthGuard)
     @Get('/one/:id')

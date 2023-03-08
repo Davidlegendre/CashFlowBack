@@ -7,6 +7,7 @@ import { GeneroService } from '../genero/genero.service';
 import { RegistroPersonaDTO } from './dto/registroPersona.dto';
 import { TipoIdentificacionService } from '../tipo_identificacion/tipo_identificacion.service';
 import { EmpresaService } from '../empresa/empresa.service';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class PersonaService {
@@ -16,6 +17,12 @@ export class PersonaService {
     private generoService: GeneroService,
     private tipoIdentificacionService: TipoIdentificacionService,
     private empresaService: EmpresaService){}
+
+    ObtenerTodoIncludeenBruto(ids: mongoose.Types.ObjectId[]){
+        
+        const result = this.personaModel.find({_id: {$in: ids}})
+        return result
+    }
 
     async ObenerTodo(): Promise<Persona[]>{
         const result = await this.personaModel.find()

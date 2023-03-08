@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards, Req } from '@nestjs/common';
 import { Banco } from '../../schemas/Banco-mode';
 import { BancoService } from './banco.service';
 import { APIKeyGuard } from '../../GlobalGuards/Guard.global';

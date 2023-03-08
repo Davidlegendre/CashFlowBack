@@ -1,20 +1,18 @@
 {
     "tareas": [
         "subida de imagenes a cloudinary",
-        "Dueño, Administrador, Gestor, cliente",
         "persona => obtener: Dueño => todas las personas que estan con su correo mas el (hacer paginacion)", 
         "Administrador => todas las personas que fueron agregadas por el y su dueño (hacer paginacion)", 
         "Gestor => todas las personas tipo cliente que agrego, mas su dueño (hacer paginacion)",
         "Cliente => se vera el, su gestor"
     ],
     "Arquitecturas":[
-        "Ordenes",
-        "Personaxcliente"
+        "Ordenes"
     ],
     "Helpers":[
-        "Subir Imagenes"
+        "Subir Imagenes",
+        "tiempo real"
     ],
     "Guards": [
-        "Autorizacion por Roles"
     ]
 }

@@ -7,6 +7,9 @@ import { EmailDTO } from '../token_email/dto/email.dto';
 import { Request } from 'express';
 import LoginDTO from './dto/login.dto';
 import PasswordUpdateDTO from './dto/passwordupdate.dto';
+import PaginacionDTO from './dto/paginacion.dto';
+import { Param, Query } from '@nestjs/common/decorators';
+import { JWTAuthGuard } from '../../GlobalGuards/JWTAuthGuard.guard';
 
 @UseGuards(APIKeyGuard)
 @Controller('auth')
@@ -61,5 +64,31 @@ export class AuthController {
             Data: result
         }
     }
+
+    @UseGuards(JWTAuthGuard)
+    @Post('/misclientes')
+    async ObtenerPersonassegun(@Body() paginacion: PaginacionDTO, @Req() req: Request):Promise<MensajeDTO>
+    {
+        const {Userid}: any = req.user
+        const result = await this.authService.ObtenerTodasLasPersonasSegun(Userid, paginacion)
+        return {mensaje: "Personas en tu cuenta", Data: result}
+    }
+
+    @UseGuards(JWTAuthGuard)
+    @Post('/me')
+    async Me(@Req() req: Request): Promise<MensajeDTO>
+    {
+        const {person}: any = req.user
+        const result = await this.authService.Me(person)
+        return {mensaje: "Este eres tu", Data: result}
+    }
+
+    /*@UseGuards(JWTAuthGuard)
+    @Get('/all')
+    async ObtenerTodo(): Promise<MensajeDTO>
+    {
+        const result = await this.personaService.ObenerTodo()
+        return {mensaje: "Personas", Data: result};
+    } */
 
 }

@@ -11,6 +11,7 @@ import { PersonaModule } from '../persona/persona.module';
     schema: PersonaXClienteSchema
   }]), PersonaModule],
   controllers: [PersonaxclienteController],
-  providers: [PersonaxclienteService]
+  providers: [PersonaxclienteService],
+  exports: [PersonaxclienteService]
 })
 export class PersonaxclienteModule {}

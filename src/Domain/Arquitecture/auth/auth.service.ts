@@ -11,15 +11,27 @@ import { Token_EmailDTO } from '../token_email/dto/token_email.dto';
 import LoginDTO from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt/dist';
 import PasswordUpdateDTO from './dto/passwordupdate.dto';
+import { Persona } from 'src/Domain/schemas/Persona-model';
+import { rol } from '../tipo_usuario/enums/tipousuario.enum';
+import PaginacionDTO from './dto/paginacion.dto';
+import { EmpresaService } from '../empresa/empresa.service';
+import { PersonaSegunIDUsuarioType } from './types/personassegunidusuario.type';
+import { Paginar } from 'src/Domain/Helpers/paginacion.helper';
+import { PersonaDocument } from '../../schemas/Persona-model';
+import { PersonaxclienteService } from '../personaxcliente/personaxcliente.service';
+import { ObtenerDatosDelDueño } from 'src/Domain/Helpers/obtenerdueno.helper';
 
 @Injectable()
 export class AuthService {
 
     constructor(@InjectModel(Usuario.name)private usuarioModel: Model<UsuarioDocument>,
+    @InjectModel(Persona.name)private personaModel: Model<PersonaDocument>,
     private readonly personaService: PersonaService,
     private readonly tokenEmailService: TokenEmailService,
     private readonly tipousuarioService: TipoUsuarioService,
-    private readonly jwtService: JwtService){}
+    private readonly empresaService: EmpresaService,
+    private readonly jwtService: JwtService,
+    private readonly personaxclienteService: PersonaxclienteService){}
 
     async ObtenerTodos(): Promise<Usuario[]>{
         const result = await this.usuarioModel.find();
@@ -27,32 +39,100 @@ export class AuthService {
         return result
     }
 
+    /*
+    "persona => obtener: Dueño => todas las personas que estan con su correo mas el (hacer paginacion)", 
+        "Administrador => todas las personas que fueron agregadas por el y su dueño (hacer paginacion)", 
+        "Gestor => todas las personas tipo cliente que agrego, mas su dueño (hacer paginacion)",
+        "Cliente => se vera el, su gestor"
+    */
+
+        //ingresa su idUsuario para saber su tipo de usuario
+        //sacar su idpersona
+        //obtiene desde personas todas las que tengan su idpersona
+        //incluido su dueño (idempresa)
+    async ObtenerTodasLasPersonasSegun(idUsuario: string, paginacionDTO:PaginacionDTO):Promise<PersonaSegunIDUsuarioType>{
+        const usuario = await this.usuarioModel.findById(idUsuario)   
+        if(!usuario) throw new HttpException('Usuario no existe',HttpStatus.NOT_FOUND)
+        const persona:any = await this.personaService.ObtenerUno(usuario.Persona_Id)          
+        const tipousuario = await this.tipousuarioService.ObtenerUno(usuario.Tipo_Usuario_Id)
+
+        let respuesta: { paginas: number, count: number, results, dueño: Persona };
+        const dueño: Persona = tipousuario.Code !== rol.Dueño? await ObtenerDatosDelDueño(this.tipousuarioService,this.usuarioModel,this.personaModel,persona.empresa_id) : null
+        
+        switch (tipousuario.Code) {
+            case rol.Dueño:
+                const query = await this.personaModel.find({empresa_id: persona.empresa_id})
+                const querybruto = this.personaModel.find({empresa_id: persona.empresa_id})
+                const personasDueño = await Paginar(querybruto,query.length, paginacionDTO)
+                respuesta = {paginas: personasDueño.paginas, count: personasDueño.count, results: personasDueño.results, dueño: persona}
+                break;
+            case rol.Administrador || rol.Gestor:
+                //buscar al dueño           
+                const query2 = await this.personaxclienteService.ObtenerTodosenBruto(persona._id) 
+                const query2bruto =this.personaxclienteService.ObtenerTodosenBruto(persona._id)   
+                const adminOGestorPersonas = await Paginar(query2bruto,query2.length, paginacionDTO)
+                respuesta = {paginas: adminOGestorPersonas.paginas, count: adminOGestorPersonas.count, results: adminOGestorPersonas.results, dueño: dueño}
+                break;
+            default:
+                //buscar al dueño
+                respuesta = {paginas: 0, count: 0, results: [{
+                    persona
+                }], dueño: dueño}
+                break;
+        }
+        return {            
+            paginacion: {
+                Total_pagina: isNaN(respuesta.paginas)?1:respuesta.paginas,
+                pagina_actual: paginacionDTO.pagina??1,
+                Total_registros: respuesta.count,
+                numero_por_pagina: paginacionDTO.por_pagina??respuesta.count
+            },
+            data:{
+                dueño: {
+                    nombre: respuesta.dueño.nombre + " " + respuesta.dueño.apellido,
+                    email: respuesta.dueño.email,
+                    telefono: respuesta.dueño.telefono
+                },
+                Personas: respuesta.results
+            }
+        }
+    }
     //crear un usuario si la persona esta activa
     //verifica un usuario si la persona esta activa y devuelve token
     //no elimina un usuario porque esta ligado a persona
     //confirma una ves registrado
     async VerificarUsuario(loginDTO: LoginDTO)
     {
-        const result: any = await this.personaService.ObtenerPorEmail(loginDTO.email); //si existe
+        const result: any = await this.personaService.ObtenerPorEmail(loginDTO.email);
         if(!result.IsActive) throw new HttpException('Usuario esta inactivo',HttpStatus.NOT_FOUND)
         const id = result._id.toString()
         const user = await this.usuarioModel.findOne({Persona_Id: id})
         if(!user) throw new HttpException('Usuario no encontrado',HttpStatus.NOT_FOUND)
         if(!user.esConfimado) throw new HttpException('Usuario no esta confirmado',HttpStatus.UNAUTHORIZED)
+        const empresa: any = await this.empresaService.ObtenerUnaEmpresa(result.empresa_id)
         const verifyPass = await compare(loginDTO.password, user.password)
         if(!verifyPass) throw new HttpException('usuario o password incorrecto', HttpStatus.FORBIDDEN)
     
         const tipousuario = await this.tipousuarioService.ObtenerUno(user.Tipo_Usuario_Id)
-        const token =await this.jwtService.signAsync({
-            Userid: user.Persona_Id,
+        const token = await this.jwtService.signAsync({
+            Userid: user._id,
+            person: user.Persona_Id,
             rol: tipousuario.Code,
             name: result.nombre,
-            apellido: result.apellido,
-            email: result.email
+            apellido: result.apellido
         })
 
         return {
-            token
+            token,
+            persona:
+            {
+                Userid: user._id,
+                rol: tipousuario.Code,
+                name: result.nombre,
+                apellido: result.apellido,
+                email: result.email,
+                empresa
+            }
         }
     }
 
@@ -69,13 +149,13 @@ export class AuthService {
 
     async RegitrarUsuario(usuarioObject: RegirterDTO)
     {
-        const persona = await this.personaService.ObtenerUno(usuarioObject.persona_id) //si existe y si esta activo
+        const persona = await this.personaService.ObtenerUno(usuarioObject.persona_id) //si existe y si esta activo                
         const user =await this.usuarioModel.findOne({Persona_Id: usuarioObject.persona_id})
-        if(user ) throw new HttpException('una persona ya tiene un usuario',HttpStatus.AMBIGUOUS)
+        if(user) throw new HttpException('una persona ya tiene un usuario',HttpStatus.AMBIGUOUS)
 
-        //si hay un tipo de usuario, lo busca y lo verifica y lo devuelve
+         //si hay un tipo de usuario, lo busca y lo verifica y lo devuelve
         //si no hay un tipo de usuario entonces solo busca el dueño
-        const tipousuario: any = usuarioObject.tipo_usuario_id? await this.tipousuarioService.ObtenerUno(usuarioObject.tipo_usuario_id) : await this.tipousuarioService.ObtenerUnoPorCode("D")  
+        const tipousuario: any = usuarioObject.tipo_usuario_id? await this.tipousuarioService.ObtenerUno(usuarioObject.tipo_usuario_id) : await this.tipousuarioService.ObtenerUnoPorCode("D") 
 
         const passencript = await hash(usuarioObject.password, 10)
         const result = await this.usuarioModel.create({
@@ -112,6 +192,12 @@ export class AuthService {
         if(!result) throw new HttpException('Usuario no actualizado',HttpStatus.NOT_MODIFIED)
         return true
        
+    }
+
+    async Me(idpersona: string)
+    {
+        const persona = await this.personaService.ObtenerUno(idpersona)
+        return persona
     }
 
 

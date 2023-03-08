@@ -4,6 +4,9 @@ import { PersonaXCliente } from '../../schemas/PersonaXCliente-model';
 import { Model } from 'mongoose';
 import { PersonaXClienteDocument } from '../../schemas/PersonaXCliente-model'; 
 import { PersonaService } from '../persona/persona.service';
+import mongoose from 'mongoose';
+import { Persona } from '../../schemas/Persona-model';
+
 
 @Injectable()
 export class PersonaxclienteService {
@@ -17,12 +20,29 @@ export class PersonaxclienteService {
     //no duplicar clientes en el mismo idpersona
     //los clientes se dasactivan  por el mismo usuario
 
-    async ObtenerTodos(idPersona: string): Promise<PersonaXCliente[]>{
+    ObtenerTodosenBruto(idPersona: string){
+        let ids: mongoose.Types.ObjectId[]
+        this.GetDatos(idPersona).then(e=> ids = e)
+        const personas = this.personaService.ObtenerTodoIncludeenBruto(ids)
+        return personas
+    }
+
+    async GetDatos(idPersona: string){
+        await this.personaService.ObtenerUno(idPersona)
+        const result = await this.personaxclienteModel.find({PersonaAdminOGestor_id: idPersona})
+        if(result.length === 0) throw new HttpException('No tiene Clientes',HttpStatus.NOT_FOUND)
+
+        const ids = result.map(e=> {
+            return new mongoose.Types.ObjectId(e.PersonaCliente_id)
+        })
+        return ids
+    }
+
+    async ObtenerTodos(idPersona: string){
         await this.personaService.ObtenerUno(idPersona)
         const result = await this.personaxclienteModel.find({PersonaAdminOGestor_id: idPersona})
         if(result.length === 0) throw new HttpException('No tiene Clientes',HttpStatus.NOT_FOUND)
         return result
-
     }
 
     async ObtenerCliente(idpersona: string, idcliente: string): Promise<PersonaXCliente>

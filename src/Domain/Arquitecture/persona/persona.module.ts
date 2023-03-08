@@ -12,7 +12,7 @@ import { TokenEmailModule } from '../token_email/token_email.module';
   imports: [MongooseModule.forFeature([{
     name: Persona.name,
     schema: PersonaSchema
-  }]), TokenEmailModule, GeneroModule, TipoIdentificacionModule, EmpresaModule],
+  }]), GeneroModule, TipoIdentificacionModule, EmpresaModule, TokenEmailModule],
   controllers: [PersonaController],
   providers: [PersonaService],
   exports: [PersonaService]
