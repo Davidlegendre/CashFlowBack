@@ -8,7 +8,6 @@ import { hash, compare } from 'bcrypt';
 import RegirterDTO from './dto/registre.dto';
 import { TipoUsuarioService } from '../tipo_usuario/tipo_usuario.service';
 import { Token_EmailDTO } from '../token_email/dto/token_email.dto';
-import LoginDTO from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt/dist';
 import PasswordUpdateDTO from './dto/passwordupdate.dto';
 import { Persona } from 'src/Domain/schemas/Persona-model';
@@ -20,6 +19,8 @@ import { Paginar } from 'src/Domain/Helpers/paginacion.helper';
 import { PersonaDocument } from '../../schemas/Persona-model';
 import { PersonaxclienteService } from '../personaxcliente/personaxcliente.service';
 import { ObtenerDatosDelDueño } from 'src/Domain/Helpers/obtenerdueno.helper';
+import LoginDTO from './dto/login.dto'; 
+import GenerarImgPerfil from 'src/Domain/Helpers/imggenerate.helper';
 
 @Injectable()
 export class AuthService {
@@ -122,6 +123,8 @@ export class AuthService {
             apellido: result.apellido
         })
 
+        const logo = empresa.logo === "" ? GenerarImgPerfil(empresa.email) : empresa.logo
+        const img = GenerarImgPerfil(result.email)
         return {
             token,
             persona:
@@ -131,7 +134,12 @@ export class AuthService {
                 name: result.nombre,
                 apellido: result.apellido,
                 email: result.email,
-                empresa
+                img: img,
+                empresa: {
+                    id: empresa._id,
+                    nombre: empresa.nombreempresa,
+                    logo: logo
+                }
             }
         }
     }
@@ -196,8 +204,20 @@ export class AuthService {
 
     async Me(idpersona: string)
     {
-        const persona = await this.personaService.ObtenerUno(idpersona)
-        return persona
+        const persona: any = await this.personaService.ObtenerUno(idpersona)
+        const img = GenerarImgPerfil(persona.email)
+        return {
+            id: persona._id,
+            nombre: persona.nombre,
+            apellido: persona.apellido,
+            email: persona.email,
+            telefono: persona.telefono,
+            identificacion: persona.identificacion,
+            generoid: persona.genero_id,
+            tipo_identificacion_id: persona.tipo_identificacion_id,
+            empresaid: persona.empresa_id,
+            img: img
+        }
     }
 
 

@@ -8,7 +8,6 @@ import { Request } from 'express';
 import LoginDTO from './dto/login.dto';
 import PasswordUpdateDTO from './dto/passwordupdate.dto';
 import PaginacionDTO from './dto/paginacion.dto';
-import { Param, Query } from '@nestjs/common/decorators';
 import { JWTAuthGuard } from '../../GlobalGuards/JWTAuthGuard.guard';
 
 @UseGuards(APIKeyGuard)
