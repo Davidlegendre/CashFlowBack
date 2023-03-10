@@ -22,7 +22,7 @@ import { Request } from 'express';
 import { EmailDTO } from '../token_email/dto/email.dto';
 import { JWTAuthGuard } from 'src/Domain/GlobalGuards/JWTAuthGuard.guard';
 import { RolesGuard } from '../../GlobalGuards/Role.guard';
-import { Roles } from 'src/Domain/GlobalGuards/role.decorator';
+import { Roles } from '../../GlobalGuards/role.decorator';
 import { rol } from '../tipo_usuario/enums/tipousuario.enum';
 
 
