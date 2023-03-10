@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { APIKeyGuard } from '../../GlobalGuards/Guard.global';
 import { JWTAuthGuard } from '../../GlobalGuards/JWTAuthGuard.guard';
-import { MensajeDTO } from 'src/Domain/DTOGlobal/MensajeModel';
+import { MensajeDTO } from '../../../Domain/DTOGlobal/MensajeModel';
 import { PersonaxclienteService } from './personaxcliente.service';
 import PersonaXClienteDTO from './dto/personaxcliente.dto';
 import { RolesGuard } from '../../GlobalGuards/Role.guard';

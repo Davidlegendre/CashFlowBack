@@ -1,8 +1,8 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { APIKeyGuard } from '../../GlobalGuards/Guard.global';
 import { TipoOrdenesService } from './tipo_ordenes.service';
-import { MensajeDTO } from 'src/Domain/DTOGlobal/MensajeModel';
-import { JWTAuthGuard } from 'src/Domain/GlobalGuards/JWTAuthGuard.guard';
+import { MensajeDTO } from '../../../Domain/DTOGlobal/MensajeModel';
+import { JWTAuthGuard } from '../../../Domain/GlobalGuards/JWTAuthGuard.guard';
 
 @UseGuards(APIKeyGuard)
 @UseGuards(JWTAuthGuard)

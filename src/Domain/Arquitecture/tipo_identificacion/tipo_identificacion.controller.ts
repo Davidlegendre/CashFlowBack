@@ -1,5 +1,5 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
-import { MensajeDTO } from 'src/Domain/DTOGlobal/MensajeModel';
+import { MensajeDTO } from '../../../Domain/DTOGlobal/MensajeModel';
 import { APIKeyGuard } from '../../GlobalGuards/Guard.global';
 import { TipoIdentificacionService } from './tipo_identificacion.service';
 

@@ -1,4 +1,4 @@
-import { Callback, Model, Query } from 'mongoose';
+import {Query } from 'mongoose';
 import PaginacionDTO from '../Arquitecture/auth/dto/paginacion.dto';
 
 export async function Paginar(document: Query<any[],any,any>, count: number, paginaciondto: PaginacionDTO){

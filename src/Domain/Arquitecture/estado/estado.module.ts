@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Estado } from 'src/Domain/schemas/Estado_Model';
+import { Estado } from '../../../Domain/schemas/Estado_Model';
 import { EstadoController } from './estado.controller';
 import { EstadoService } from './estado.service';
 import { EstadoSchema } from '../../schemas/Estado_Model';

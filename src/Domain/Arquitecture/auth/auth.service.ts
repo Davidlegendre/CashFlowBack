@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Usuario, UsuarioDocument } from 'src/Domain/schemas/Usuario-model';
+import { Usuario, UsuarioDocument } from '../../../Domain/schemas/Usuario-model';
 import { PersonaService } from '../persona/persona.service';
 import { TokenEmailService } from '../token_email/token_email.service';
 import { hash, compare } from 'bcrypt';
@@ -10,17 +10,17 @@ import { TipoUsuarioService } from '../tipo_usuario/tipo_usuario.service';
 import { Token_EmailDTO } from '../token_email/dto/token_email.dto';
 import { JwtService } from '@nestjs/jwt/dist';
 import PasswordUpdateDTO from './dto/passwordupdate.dto';
-import { Persona } from 'src/Domain/schemas/Persona-model';
+import { Persona } from '../../../Domain/schemas/Persona-model';
 import { rol } from '../tipo_usuario/enums/tipousuario.enum';
 import PaginacionDTO from './dto/paginacion.dto';
 import { EmpresaService } from '../empresa/empresa.service';
 import { PersonaSegunIDUsuarioType } from './types/personassegunidusuario.type';
-import { Paginar } from 'src/Domain/Helpers/paginacion.helper';
+import { Paginar } from '../../../Domain/Helpers/paginacion.helper';
 import { PersonaDocument } from '../../schemas/Persona-model';
 import { PersonaxclienteService } from '../personaxcliente/personaxcliente.service';
-import { ObtenerDatosDelDueño } from 'src/Domain/Helpers/obtenerdueno.helper';
+import { ObtenerDatosDelDueño } from '../../../Domain/Helpers/obtenerdueno.helper';
 import LoginDTO from './dto/login.dto'; 
-import GenerarImgPerfil from 'src/Domain/Helpers/imggenerate.helper';
+import GenerarImgPerfil from '../../../Domain/Helpers/imggenerate.helper';
 
 @Injectable()
 export class AuthService {

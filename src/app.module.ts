@@ -10,17 +10,11 @@ import { EstadoModule } from './Domain/Arquitecture/estado/estado.module';
 import { TipoOrdenesModule } from './Domain/Arquitecture/tipo_ordenes/tipo_ordenes.module';
 import { TipoUsuarioModule } from './Domain/Arquitecture/tipo_usuario/tipo_usuario.module';
 import { TipoIdentificacionModule } from './Domain/Arquitecture/tipo_identificacion/tipo_identificacion.module';
-import SwaggerCustom from 'src/Domain/Views/index';
+import SwaggerCustom from './Domain/Views/index';
 import { TokenEmailModule } from './Domain/Arquitecture/token_email/token_email.module';
 import { EmpresaModule } from './Domain/Arquitecture/empresa/empresa.module';
-import { TokenEmailService } from './Domain/Arquitecture/token_email/token_email.service';
 import { PersonaModule } from './Domain/Arquitecture/persona/persona.module';
-import { GeneroService } from './Domain/Arquitecture/genero/genero.service';
-import { TipoIdentificacionService } from './Domain/Arquitecture/tipo_identificacion/tipo_identificacion.service';
-import { EmpresaService } from './Domain/Arquitecture/empresa/empresa.service';
-import { PersonaService } from './Domain/Arquitecture/persona/persona.service';
 import { AuthModule } from './Domain/Arquitecture/auth/auth.module';
-import { JwtService } from '@nestjs/jwt/dist';
 import { JwtStrategy } from './config/jwt.strategy';
 import { CuentasxusuarioModule } from './Domain/Arquitecture/cuentasxusuario/cuentasxusuario.module';
 require('dotenv').config()

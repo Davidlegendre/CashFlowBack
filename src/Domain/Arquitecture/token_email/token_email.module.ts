@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { TokenEmailService } from './token_email.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Token_Email, Token_EmailSchema } from '../../schemas/Tokens-emails';
-import { EmailFactoryService } from '../email-factory/email-factory.service';
 import { TokenEmailController } from './token_email.controller';
 import { EmailFactoryModule } from '../email-factory/email-factory.module';
 

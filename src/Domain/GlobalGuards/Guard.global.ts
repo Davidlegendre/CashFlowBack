@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext, HttpException, HttpStatus } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { Config } from 'src/config/config';
+import { Config } from '../../config/config';
 
 @Injectable()
 export class APIKeyGuard implements CanActivate {

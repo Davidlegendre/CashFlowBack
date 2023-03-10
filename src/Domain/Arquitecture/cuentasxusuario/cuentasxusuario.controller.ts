@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Paramtype, Post, UseGuards } from '@nestjs/common';
 import { APIKeyGuard } from '../../GlobalGuards/Guard.global';
 import { JWTAuthGuard } from '../../GlobalGuards/JWTAuthGuard.guard';
-import { MensajeDTO } from 'src/Domain/DTOGlobal/MensajeModel'; 
+import { MensajeDTO } from '../../../Domain/DTOGlobal/MensajeModel'; 
 import { CuentasxusuarioService } from './cuentasxusuario.service';
 import CuentaXUsuarioDTO from './dto/cuentaxusuario.dto';
 

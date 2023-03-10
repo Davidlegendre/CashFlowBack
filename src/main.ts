@@ -2,13 +2,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {Config} from './config/config';
-import { RolesGuard } from './Domain/GlobalGuards/Role.guard';
 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {cors: true});
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3000);
+  await app.listen(Config().port);
  
 }
 bootstrap();

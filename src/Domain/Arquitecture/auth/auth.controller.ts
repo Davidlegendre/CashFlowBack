@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
 import { APIKeyGuard } from '../../GlobalGuards/Guard.global';
 import RegirterDTO from './dto/registre.dto';
-import { MensajeDTO } from 'src/Domain/DTOGlobal/MensajeModel';
+import { MensajeDTO } from '../../DTOGlobal/MensajeModel';
 import { AuthService } from './auth.service';
 import { EmailDTO } from '../token_email/dto/email.dto';
 import { Request } from 'express';

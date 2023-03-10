@@ -1,13 +1,13 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { PersonaService } from './persona.service';
-import { MensajeDTO } from 'src/Domain/DTOGlobal/MensajeModel';
+import { MensajeDTO } from '../../../Domain/DTOGlobal/MensajeModel';
 import { APIKeyGuard } from '../../GlobalGuards/Guard.global';
 import { RegistroPersonaDTO } from './dto/registroPersona.dto';
 import { Req } from '@nestjs/common/decorators';
 import { Request } from 'express';
 import { TokenEmailService } from '../token_email/token_email.service';
 import EmailPersonaDTO from './dto/emailPersona.dto';
-import { JWTAuthGuard } from 'src/Domain/GlobalGuards/JWTAuthGuard.guard';
+import { JWTAuthGuard } from '../../../Domain/GlobalGuards/JWTAuthGuard.guard';
 
 @UseGuards(APIKeyGuard)
 @Controller('persona')

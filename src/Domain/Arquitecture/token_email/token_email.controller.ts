@@ -1,7 +1,7 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { APIKeyGuard } from '../../GlobalGuards/Guard.global';
 import { TokenEmailService } from './token_email.service';
-import { MensajeDTO } from 'src/Domain/DTOGlobal/MensajeModel';
+import { MensajeDTO } from '../../../Domain/DTOGlobal/MensajeModel';
 import { EmailDTO } from './dto/email.dto';
 
 @Controller('token-email')

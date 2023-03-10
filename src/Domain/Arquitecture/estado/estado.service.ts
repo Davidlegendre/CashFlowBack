@@ -1,8 +1,8 @@
 import { Injectable, Scope, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Estado } from 'src/Domain/schemas/Estado_Model'; 
-import { EstadoDocument } from 'src/Domain/schemas/Estado_Model';
+import { Estado } from '../../../Domain/schemas/Estado_Model'; 
+import { EstadoDocument } from '../../../Domain/schemas/Estado_Model';
 
 @Injectable({scope: Scope.DEFAULT})
 

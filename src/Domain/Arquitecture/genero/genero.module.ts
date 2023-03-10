@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { GeneroService } from './genero.service';
 import { GeneroController } from './genero.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Genero } from 'src/Domain/schemas/Genero-model';
+import { Genero } from '../../../Domain/schemas/Genero-model';
 import { GeneroSchema } from '../../schemas/Genero-model';
 
 @Module({

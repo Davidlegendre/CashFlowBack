@@ -1,7 +1,7 @@
 import { Injectable, Controller, Inject, Scope, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Genero, Genero_Document } from 'src/Domain/schemas/Genero-model';
+import { Genero, Genero_Document } from '../../../Domain/schemas/Genero-model';
 
 @Injectable({ scope: Scope.DEFAULT})
 export class GeneroService {

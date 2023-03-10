@@ -5,7 +5,6 @@ import { Model } from 'mongoose';
 import { PersonaXClienteDocument } from '../../schemas/PersonaXCliente-model'; 
 import { PersonaService } from '../persona/persona.service';
 import mongoose from 'mongoose';
-import { Persona } from '../../schemas/Persona-model';
 
 
 @Injectable()

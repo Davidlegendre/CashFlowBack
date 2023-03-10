@@ -1,7 +1,7 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { GeneroService } from './genero.service';
 import { APIKeyGuard } from '../../GlobalGuards/Guard.global';
-import { MensajeDTO } from 'src/Domain/DTOGlobal/MensajeModel'; 
+import { MensajeDTO } from '../../../Domain/DTOGlobal/MensajeModel'; 
 
 @Controller('genero')
 @UseGuards(APIKeyGuard)
