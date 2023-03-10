@@ -8,9 +8,7 @@ import { RolesGuard } from './Domain/GlobalGuards/Role.guard';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {cors: true});
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(Config().port, () => {
-    console.log("server on http://localhost:" + Config().port)
-  });
+  await app.listen(3000);
  
 }
 bootstrap();

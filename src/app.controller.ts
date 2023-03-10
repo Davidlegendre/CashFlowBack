@@ -7,6 +7,6 @@ export class AppController {
 
   @Get()
   SwaggerC() {
-    return this.appService.Swagger();
+    return "hola mundo"
   }
 }
