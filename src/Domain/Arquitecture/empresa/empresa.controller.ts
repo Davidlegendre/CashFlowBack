@@ -50,7 +50,7 @@ export class EmpresaController {
   @Post('/create')
   async CrearUnaEmpresa(@Body() empresaDTo: EmpresaDTO): Promise<MensajeDTO> {
     const empresa = new Empresa();
-    empresa.email = empresaDTo.email;
+    empresa.email = empresaDTo.email.toLowerCase();
     empresa.nombreempresa = empresaDTo.nombreempresa;
     const result = await this.empresaService.CrearEmpresa(empresa);
     return { mensaje: 'Empresa Creada Correctamente', Data: result };
@@ -68,7 +68,7 @@ export class EmpresaController {
       logo: emp.logo,
       IsActive: emp.IsActive,
       nombreempresa: empresadto.nombreempresa,
-      email: empresadto.email,
+      email: empresadto.email.toLowerCase(),
     });
     return { mensaje: 'Empresa Actualizada', Data: result };
   }

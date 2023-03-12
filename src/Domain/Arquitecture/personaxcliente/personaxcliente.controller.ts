@@ -9,13 +9,13 @@ import { Roles } from '../../GlobalGuards/role.decorator';
 import { rol } from '../tipo_usuario/enums/tipousuario.enum';
 
 @UseGuards(APIKeyGuard)
-@Roles(rol.Dueño, rol.Administrador, rol.Gestor)
-@UseGuards(JWTAuthGuard, RolesGuard)
 @Controller('personaxcliente')
 export class PersonaxclienteController {
 
     constructor(private readonly personaxclienteService: PersonaxclienteService){}
 
+    @Roles(rol.Dueño, rol.Administrador, rol.Gestor)
+    @UseGuards(JWTAuthGuard, RolesGuard)
     @Get('/all/:idPersona')
     async ObtenerTodos(@Param('idPersona')idPersona: string): Promise<MensajeDTO>
     {
@@ -23,6 +23,8 @@ export class PersonaxclienteController {
         return {mensaje: "Personas", Data: result}
     }
 
+    @Roles(rol.Dueño, rol.Administrador, rol.Gestor)
+    @UseGuards(JWTAuthGuard, RolesGuard)
     @Get('/one/:idpersona/:idcliente')
     async ObtenerUno(@Param() {idpersona, idcliente}: PersonaXClienteDTO): Promise<MensajeDTO>
     {
@@ -30,6 +32,8 @@ export class PersonaxclienteController {
         return {mensaje: "Persona", Data: result}
     }
 
+    @Roles(rol.Dueño, rol.Administrador, rol.Gestor)
+    @UseGuards(JWTAuthGuard, RolesGuard)
     @Post('/agregar')
     async AgregarCliente(@Body() personaxclienteDto: PersonaXClienteDTO): Promise<MensajeDTO>
     {
@@ -37,6 +41,8 @@ export class PersonaxclienteController {
         return {mensaje: "Cliente agregado", Data: result}
     }
 
+    @Roles(rol.Dueño, rol.Administrador, rol.Gestor)
+    @UseGuards(JWTAuthGuard, RolesGuard)
     @Post('/eliminar/:idpersona/:idcliente')
     async EliminarCliente(@Param() {idpersona, idcliente}: PersonaXClienteDTO): Promise<MensajeDTO>
     {

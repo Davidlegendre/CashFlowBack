@@ -21,6 +21,10 @@ import { PersonaxclienteService } from '../personaxcliente/personaxcliente.servi
 import { ObtenerDatosDelDueño } from '../../../Domain/Helpers/obtenerdueno.helper';
 import LoginDTO from './dto/login.dto'; 
 import GenerarImgPerfil from '../../../Domain/Helpers/imggenerate.helper';
+import RegistroNuevoUsuario from './dto/registronuevo.dto';
+import { GeneroService } from '../genero/genero.service';
+import { TipoIdentificacionService } from '../tipo_identificacion/tipo_identificacion.service';
+import { Empresa } from '../../schemas/Empresa-model';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +36,9 @@ export class AuthService {
     private readonly tipousuarioService: TipoUsuarioService,
     private readonly empresaService: EmpresaService,
     private readonly jwtService: JwtService,
-    private readonly personaxclienteService: PersonaxclienteService){}
+    private readonly personaxclienteService: PersonaxclienteService,
+    private readonly generoService: GeneroService,
+    private readonly tipoIdentificacionService: TipoIdentificacionService){}
 
     async ObtenerTodos(): Promise<Usuario[]>{
         const result = await this.usuarioModel.find();
@@ -155,7 +161,47 @@ export class AuthService {
         return true
     }
 
-    async RegitrarUsuario(usuarioObject: RegirterDTO)
+    async RegistrarNuevoUsuario(registroNuevo: RegistroNuevoUsuario){
+        await this.generoService.ObtenerUnGenero(registroNuevo.genero_idpersona)
+        await this.tipoIdentificacionService.ObtenerUno(registroNuevo.tipo_identificacion_idpersona)
+        //registrar empresa
+        const re = await this.empresaService.ObtenerEmpresaPorEmail(registroNuevo.emailempresa.toLowerCase())
+        if(re)
+            throw new HttpException('Empresa ya existe',HttpStatus.AMBIGUOUS)
+
+        const per = await this.personaService.ObtenerPorEmail(registroNuevo.emailpersona.toLowerCase())
+        if(per)
+            throw new HttpException('Persona ya existe',HttpStatus.AMBIGUOUS)
+
+        const newempresa = new Empresa()
+        newempresa.email = registroNuevo.emailempresa.toLowerCase();
+        newempresa.nombreempresa = registroNuevo.nombreempresa
+
+        const empresa: any = await this.empresaService.CrearEmpresa(newempresa)        
+        //registrar persona
+
+        const persona: any = await this.personaService.CrearPersona({
+            nombre: registroNuevo.nombrepersona,
+            apellido: registroNuevo.apellidopersona,
+            email: registroNuevo.emailpersona,
+            empresa_id: empresa._id,
+            genero_id: registroNuevo.genero_idpersona,
+            identificacion: registroNuevo.identificacionpersona,
+            tipo_identificacion_id: registroNuevo.tipo_identificacion_idpersona,
+            telefono: registroNuevo.telefonopersona
+        })
+
+        //registrar usuario
+        const usuario = await this.RegitrarUsuarioPersonaExistente({
+            password: registroNuevo.password,
+            persona_id: persona._id,
+            tipo_usuario_id: null
+        })
+
+        return usuario
+    }
+
+    async RegitrarUsuarioPersonaExistente(usuarioObject: RegirterDTO)
     {
         const persona = await this.personaService.ObtenerUno(usuarioObject.persona_id) //si existe y si esta activo                
         const user =await this.usuarioModel.findOne({Persona_Id: usuarioObject.persona_id})
@@ -172,8 +218,6 @@ export class AuthService {
             Tipo_Usuario_Id: tipousuario._id
         })
         if(!result) throw new HttpException('Usuario no registrado',HttpStatus.NOT_MODIFIED)
-
-        await this.tokenEmailService.CrearTokenEmail(persona.email)
         
         return {
             result: true,

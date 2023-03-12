@@ -8,7 +8,6 @@ export class RolesGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
     
-    
     if (!roles) {
       return true;
     }
@@ -16,7 +15,7 @@ export class RolesGuard implements CanActivate {
     const user = request.user;
     //si el rol del usuario esta dentro del array de roles
     const result = roles.includes(user.rol)
-    if(!result) throw new HttpException('No tiene autorizacion',HttpStatus.UNAUTHORIZED)   
+    if(!result) throw new HttpException('No autorizado',HttpStatus.FORBIDDEN)   
     return result
   }
 }

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsEmail, IsNumber, IsNotIn } from 'class-validator';
+import { IsNotEmpty, IsEmail, IsNumber, IsNotIn, IsLowercase } from 'class-validator';
 
 export class RegistroPersonaDTO {
   @IsNotEmpty({ message: 'Nombre no debe estar vacio' })
@@ -10,6 +10,7 @@ export class RegistroPersonaDTO {
   @IsNotEmpty({message: "Email no debe estar vacio"})
   @IsEmail({},{message: "el campo debe ser un email"})
   @IsNotIn(["cashflowapicenter@gmail.com"], {message: "No puedes agregar ese email"})
+  @IsLowercase({message: "email debe ser todo en minusculas"})
   email: string;
   
   @IsNumber({},{message: "telefono debe ser un numero"})
@@ -26,4 +27,5 @@ export class RegistroPersonaDTO {
 
   @IsNotEmpty({message: "Empresa_id no debe estar vacio"})
   empresa_id: string;
+  
 }

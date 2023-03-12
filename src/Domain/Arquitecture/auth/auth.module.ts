@@ -12,6 +12,8 @@ import { EmpresaModule } from '../empresa/empresa.module';
 import { Persona } from '../../../Domain/schemas/Persona-model';
 import { PersonaSchema } from '../../schemas/Persona-model';
 import { PersonaxclienteModule } from '../personaxcliente/personaxcliente.module';
+import { GeneroModule } from '../genero/genero.module';
+import { TipoIdentificacionModule } from '../tipo_identificacion/tipo_identificacion.module';
 
 @Module({
   imports:[MongooseModule.forFeature([{
@@ -21,6 +23,7 @@ import { PersonaxclienteModule } from '../personaxcliente/personaxcliente.module
     name: Persona.name,
     schema: PersonaSchema,
   }]),TipoUsuarioModule,PersonaModule, TokenEmailModule, EmpresaModule,PersonaxclienteModule,
+  GeneroModule,TipoIdentificacionModule,
   JwtModule.registerAsync({
     useFactory: (configService: ConfigService) => {
         return {

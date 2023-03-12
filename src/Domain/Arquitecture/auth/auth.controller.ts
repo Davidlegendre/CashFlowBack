@@ -9,6 +9,7 @@ import LoginDTO from './dto/login.dto';
 import PasswordUpdateDTO from './dto/passwordupdate.dto';
 import PaginacionDTO from './dto/paginacion.dto';
 import { JWTAuthGuard } from '../../GlobalGuards/JWTAuthGuard.guard';
+import RegistroNuevoUsuario from './dto/registronuevo.dto';
 
 @UseGuards(APIKeyGuard)
 @Controller('auth')
@@ -32,8 +33,15 @@ export class AuthController {
     @Post('/registrar')
     async RegistrarUsuario(@Body() usuarioObject: RegirterDTO): Promise<MensajeDTO>
     {
-        const result = await this.authService.RegitrarUsuario(usuarioObject)
-        return {mensaje: "Usuario registrado", Data: result}
+        const result = await this.authService.RegitrarUsuarioPersonaExistente(usuarioObject)
+        return {mensaje: "Usuario registrado, verifique email", Data: result}
+    }
+
+    @Post('/registrar/nuevo')
+    async RegistrarNuevoUsuario(@Body() usuarioNuevoDTo: RegistroNuevoUsuario): Promise<MensajeDTO>
+    {
+        const result = await this.authService.RegistrarNuevoUsuario(usuarioNuevoDTo)
+        return {mensaje: "Usuario registrado, verifique email", Data: result}
     }
 
     @Post('/activar')
