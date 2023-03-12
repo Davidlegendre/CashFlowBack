@@ -173,9 +173,13 @@ export class AuthService {
             
         }
 
-        const per = await this.personaService.ObtenerPorEmail(registroNuevo.emailpersona.toLowerCase())
-        if(per)
-            throw new HttpException('Persona ya existe',HttpStatus.AMBIGUOUS)
+        try {
+            const per = await this.personaService.ObtenerPorEmail(registroNuevo.emailpersona.toLowerCase())
+            if(per)
+                throw new HttpException('Persona ya existe',HttpStatus.AMBIGUOUS)
+        } catch (error) {
+            
+        }
 
         const newempresa = new Empresa()
         newempresa.email = registroNuevo.emailempresa.toLowerCase();
