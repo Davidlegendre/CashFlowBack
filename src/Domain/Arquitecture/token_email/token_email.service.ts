@@ -20,7 +20,8 @@ export class TokenEmailService {
     async VerificarYUsarTokenEmail(toke_emailDTO: Token_EmailDTO): Promise<boolean>
     {
        const token_email = await this.token_emailModel.findOne({email: toke_emailDTO.email})
-        if(token_email && token_email._id.toString() === toke_emailDTO.token_email && getDateNow() <= token_email.FechaExpiracion)
+       const id =token_email._id.toString()
+        if(token_email && id === toke_emailDTO.token_email && getDateNow() <= token_email.FechaExpiracion)
         {              
             await this.token_emailModel.findByIdAndDelete(token_email._id)  
             this.EliminarVencidos();                    
