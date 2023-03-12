@@ -192,7 +192,7 @@ export class AuthService {
             nombre: registroNuevo.nombrepersona,
             apellido: registroNuevo.apellidopersona,
             email: registroNuevo.emailpersona,
-            empresa_id: empresa._id,
+            empresa_id: empresa._id.toString(),
             genero_id: registroNuevo.genero_idpersona,
             identificacion: registroNuevo.identificacionpersona,
             tipo_identificacion_id: registroNuevo.tipo_identificacion_idpersona,
@@ -202,7 +202,7 @@ export class AuthService {
         //registrar usuario
         const usuario = await this.RegitrarUsuarioPersonaExistente({
             password: registroNuevo.password,
-            persona_id: persona._id,
+            persona_id: persona._id.toString(),
             tipo_usuario_id: null
         })
 
