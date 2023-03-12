@@ -25,7 +25,7 @@ export class TokenEmailService {
             await this.token_emailModel.findByIdAndDelete(token_email._id)  
             this.EliminarVencidos();                    
             return true;
-        }        
+        }else        
         throw new HttpException('Token no encontrado o expirado',HttpStatus.NOT_FOUND)
     }
 
