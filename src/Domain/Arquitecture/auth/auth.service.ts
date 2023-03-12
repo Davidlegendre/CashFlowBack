@@ -165,9 +165,13 @@ export class AuthService {
         await this.generoService.ObtenerUnGenero(registroNuevo.genero_idpersona)
         await this.tipoIdentificacionService.ObtenerUno(registroNuevo.tipo_identificacion_idpersona)
         //registrar empresa
-        const re = await this.empresaService.ObtenerEmpresaPorEmail(registroNuevo.emailempresa.toLowerCase())
-        if(re)
-            throw new HttpException('Empresa ya existe',HttpStatus.AMBIGUOUS)
+        try {
+            const re = await this.empresaService.ObtenerEmpresaPorEmail(registroNuevo.emailempresa.toLowerCase())
+            if(re)
+                throw new HttpException('Empresa ya existe',HttpStatus.AMBIGUOUS)
+        } catch (error) {
+            
+        }
 
         const per = await this.personaService.ObtenerPorEmail(registroNuevo.emailpersona.toLowerCase())
         if(per)
