@@ -10,7 +10,6 @@ export class RegistroPersonaDTO {
   @IsNotEmpty({message: "Email no debe estar vacio"})
   @IsEmail({},{message: "el campo debe ser un email"})
   @IsNotIn(["cashflowapicenter@gmail.com"], {message: "No puedes agregar ese email"})
-  @IsLowercase({message: "email debe ser todo en minusculas"})
   email: string;
   
   @IsNumber({},{message: "telefono debe ser un numero"})
