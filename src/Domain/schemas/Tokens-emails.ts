@@ -8,7 +8,7 @@ export type Token_Email_Document = HydratedDocument<Token_Email>;
     timestamps: true
 })
 export class Token_Email {
-  @Prop({required: true, default: addMilisecondsToDate(2 * 60000)})
+  @Prop({required: true, default: addMilisecondsToDate(2 * 180000)})
   FechaExpiracion: Date;
 
   @Prop({required: true})
