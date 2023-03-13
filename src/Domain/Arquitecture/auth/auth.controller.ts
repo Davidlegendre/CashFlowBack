@@ -10,6 +10,7 @@ import PasswordUpdateDTO from './dto/passwordupdate.dto';
 import PaginacionDTO from './dto/paginacion.dto';
 import { JWTAuthGuard } from '../../GlobalGuards/JWTAuthGuard.guard';
 import RegistroNuevoUsuario from './dto/registronuevo.dto';
+import { Token_EmailDTO } from '../token_email/dto/token_email.dto';
 
 @UseGuards(APIKeyGuard)
 @Controller('auth')
@@ -45,21 +46,10 @@ export class AuthController {
     }
 
     @Post('/activar')
-    async ActivarUsuario(@Body() emaildto: EmailDTO, @Req() req: Request): Promise<MensajeDTO>
+    async ActivarUsuario(@Body() tokenEmailDTO: Token_EmailDTO): Promise<MensajeDTO>
     {
-        const { token_email } = req.headers;
-        if(!token_email)
-        {
-            throw new HttpException(
-                'Necesitas un token_email',
-                HttpStatus.UNAUTHORIZED,
-                );
-        }
-        await this.authService.ActivarUsuario({
-            email: emaildto.email,
-            token_email: token_email.toString()
-        })
-        return {mensaje: "Usuario activado", Data: {email: emaildto.email}}
+        await this.authService.ActivarUsuario(tokenEmailDTO)
+        return {mensaje: "Usuario activado", Data: {email: tokenEmailDTO.email}}
         
     }
 
